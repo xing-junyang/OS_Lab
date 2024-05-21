@@ -31,6 +31,9 @@ PRIVATE void flush(CONSOLE *p_con);
 PUBLIC int backspace(CONSOLE *p_con) {
     u8 *p_vmem = (u8 *) (V_MEM_BASE + p_con->cursor * 2);
     int diff = 0;
+    if(write_mode==1&&p_con->cursorLineStack[p_con->cursorLineStackTop-1]<p_con->cursorPos){
+        return p_con->cursor;
+    }
     if (p_con->cursorLineStackTop) {
         diff = p_con->cursor - p_con->cursorLineStack[--p_con->cursorLineStackTop];
     } else {
@@ -156,7 +159,7 @@ PUBLIC void out_char(CONSOLE *p_con, char ch) {
 
             break;
         case '\b':
-            if (write_mode == 0) {
+            if (write_mode == 0 || write_mode == 1) {
                 backspace(p_con);
             }
             break;
