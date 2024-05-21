@@ -23,7 +23,6 @@ PRIVATE void init_tty(TTY* p_tty);
 PRIVATE void tty_do_read(TTY* p_tty);
 PRIVATE void tty_do_write(TTY* p_tty);
 PRIVATE void put_key(TTY* p_tty, u32 key);
-
 /*======================================================================*
                            task_tty
  *======================================================================*/
@@ -63,49 +62,55 @@ PUBLIC void in_process(TTY* p_tty, u32 key)
 {
         char output[2] = {'\0', '\0'};
 
-        if (!(key & FLAG_EXT)) {
-		put_key(p_tty, key);
-        }
-        else {
-                int raw_code = key & MASK_RAW;
-                switch(raw_code) {
-                case ENTER:
-			put_key(p_tty, '\n');
-			break;
-                case BACKSPACE:
-			put_key(p_tty, '\b');
-			break;
-                case UP:
-                        if ((key & FLAG_SHIFT_L) || (key & FLAG_SHIFT_R)) {
-				scroll_screen(p_tty->p_console, SCR_DN);
-                        }
-			break;
-		case DOWN:
-			if ((key & FLAG_SHIFT_L) || (key & FLAG_SHIFT_R)) {
-				scroll_screen(p_tty->p_console, SCR_UP);
-			}
-			break;
-		case F1:
-		case F2:
-		case F3:
-		case F4:
-		case F5:
-		case F6:
-		case F7:
-		case F8:
-		case F9:
-		case F10:
-		case F11:
-		case F12:
-			/* Alt + F1~F12 */
-			if ((key & FLAG_ALT_L) || (key & FLAG_ALT_R)) {
-				select_console(raw_code - F1);
-			}
-			break;
-                default:
-                        break;
+    if (!(key & FLAG_EXT)) {
+        put_key(p_tty, key);
+    }
+    else {
+        int raw_code = key & MASK_RAW;
+        switch(raw_code) {
+            case ENTER:
+                put_key(p_tty, '\n');
+                break;
+            case BACKSPACE:
+                put_key(p_tty, '\b');
+                break;
+            case TAB:
+                put_key(p_tty, '\t');
+                break;
+            case ESC:
+                put_key(p_tty, '\r');//esc is \r
+                break;
+            case UP:
+                if ((key & FLAG_SHIFT_L) || (key & FLAG_SHIFT_R)) {
+                    scroll_screen(p_tty->p_console, SCR_DN);
                 }
+                break;
+            case DOWN:
+                if ((key & FLAG_SHIFT_L) || (key & FLAG_SHIFT_R)) {
+                    scroll_screen(p_tty->p_console, SCR_UP);
+                }
+                break;
+            case F1:
+            case F2:
+            case F3:
+            case F4:
+            case F5:
+            case F6:
+            case F7:
+            case F8:
+            case F9:
+            case F10:
+            case F11:
+            case F12:
+                /* Alt + F1~F12 */
+                if ((key & FLAG_ALT_L) || (key & FLAG_ALT_R)) {
+                    select_console(raw_code - F1);
+                }
+                break;
+            default:
+                break;
         }
+    }
 }
 
 /*======================================================================*
@@ -148,8 +153,12 @@ PRIVATE void tty_do_write(TTY* p_tty)
 		}
 		p_tty->inbuf_count--;
 
-		out_char(p_tty->p_console, ch);
-	}
+        //把所有的字符操作全部存起来
+        CHARACTER now_character = p_tty->p_console->character;
+        now_character.content[now_character.pos] = ch;
+        now_character.pos++;
+        out_char(p_tty->p_console, ch);
+    }
 }
 
 

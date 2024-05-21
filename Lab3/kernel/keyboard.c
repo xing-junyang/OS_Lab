@@ -75,8 +75,8 @@ PUBLIC void init_keyboard()
 
 	set_leds();
 
-        put_irq_handler(KEYBOARD_IRQ, keyboard_handler);/*设定键盘中断处理程序*/
-        enable_irq(KEYBOARD_IRQ);                       /*开键盘中断*/
+    put_irq_handler(KEYBOARD_IRQ, keyboard_handler);/*设定键盘中断处理程序*/
+    enable_irq(KEYBOARD_IRQ);                       /*开键盘中断*/
 }
 
 
