@@ -78,7 +78,7 @@
    
 2. 在项目文件夹，运行以下指令。
    
-```shell
-make run
-```
+   ```shell
+   make run
+   ```
 
