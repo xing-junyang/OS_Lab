@@ -1,0 +1,33 @@
+###############################################################
+# Configuration file for Bochs
+###############################################################
+
+# how much memory the emulated machine will have
+megs: 32
+
+# filename of ROM images
+romimage: file=/Users/xingjunyang/Documents/School/大二下/Linux_Folder/bochs/BIOS-bochs-legacy
+vgaromimage: file=/Users/xingjunyang/Documents/School/大二下/Linux_Folder/bochs/vgabios.bin
+
+# what disk images will be used
+floppya: 1_44=a.img, status=inserted
+
+# choose the boot disk.
+boot: a
+
+# where do we send log messages?
+# log: bochsout.txt
+
+# disable the mouse
+mouse: enabled=0
+
+# enable key mapping, using US layout as default.
+keyboard: type=mf, serial_delay=150, paste_delay=100000
+keyboard: keymap=/Users/xingjunyang/Documents/School/大二下/Linux_Folder/bochs/keymaps/sdl2-pc-us.map
+
+display_library: sdl2
+
+debug: action=ignore
+panic: action=ask
+error: action=report
+info: action=report
