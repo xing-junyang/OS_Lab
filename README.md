@@ -1,5 +1,5 @@
 # OS_Lab
-这是[**南京大学软件学院**](https://software.nju.edu.cn)操作系统课实验作业
+> 这是[**南京大学软件学院**](https://software.nju.edu.cn)操作系统课实验作业（大二下）
 
 ## Lab1
 
@@ -82,3 +82,6 @@
    make run
    ```
 
+## Lab4
+
+实现互斥锁的小实验。
